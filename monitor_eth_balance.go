@@ -4,10 +4,12 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"math"
 	"math/big"
 	"net/http"
+	"os"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
@@ -31,11 +33,29 @@ type WechatTextMessage struct {
 }
 
 func main() {
+	var configPath string
+	flag.StringVar(&configPath, "c", "", "config file path.")
+
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "Usage: %s -c <configPath>\n", os.Args[0])
+	}
+	flag.Parse()
+
+	if !flag.Parsed() {
+		flag.Usage()
+		os.Exit(1)
+	}
+
+	if configPath == "" {
+		flag.Usage()
+		os.Exit(1)
+	}
+
 	// load Config
-	configPath := "eth_balance.yaml"
 	config, err := LoadConfig(configPath)
 	if err != nil {
 		fmt.Println(err)
+		os.Exit(2)
 	}
 
 	var msg string = "### ETH Balance Alert:\n"
@@ -52,7 +72,7 @@ func main() {
 		}
 	}
 
-	fmt.Println(len(msg))
+	//fmt.Println(len(msg))
 	if len(msg) > 30 {
 		for _, chatKey := range config.QywxBot {
 			SendQYWX(chatKey, msg)
