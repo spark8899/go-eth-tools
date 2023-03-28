@@ -10,6 +10,7 @@ import (
 	"math/big"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
@@ -19,6 +20,7 @@ import (
 type Config struct {
 	EthRpc       string
 	BalanceAlert float64
+	AlertTitle   string
 	QywxBot      []string
 	EthAddress   []string
 }
@@ -58,16 +60,18 @@ func main() {
 		os.Exit(2)
 	}
 
-	var msg string = "### ETH Balance Alert:\n"
-	for _, addr := range config.EthAddress {
+	var msg string = fmt.Sprintf("### %s\n", config.AlertTitle)
+	for _, addrStr := range config.EthAddress {
+		tag := strings.Split(addrStr, ":")[0]
+		addr := strings.Split(addrStr, ":")[1]
 		balance, err := GetEthBalance(addr, config.EthRpc)
 		if err != nil {
 			fmt.Println(err)
 		}
-		fmt.Printf("%s: %.4f\n", addr, balance)
+		fmt.Printf("%s, %s: %.4f\n", tag, addr, balance)
 
 		if balance < config.BalanceAlert {
-			alertInfo := fmt.Sprintf("%s *%.4f*\n", addr, balance)
+			alertInfo := fmt.Sprintf("%s *%.4f*\n", tag, balance)
 			msg = fmt.Sprintf("%s%s", msg, alertInfo)
 		}
 	}

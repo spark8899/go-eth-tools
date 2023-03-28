@@ -1,8 +1,9 @@
 EthRpc: https://cloudflare-eth.com
 BalanceAlert: 0.1
+AlertTitle: "ABC alert"
 QywxBot:
   - xxx-xx-xx-xxxxx-xx
 EthAddress:
-  - 0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-  - 0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-  - 0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+  - aa:0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  - bb:0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  - cc:0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
