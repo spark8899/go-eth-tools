@@ -67,6 +67,7 @@ func main() {
 		balance, err := GetEthBalance(addr, config.EthRpc)
 		if err != nil {
 			fmt.Println(err)
+			os.Exit(3)
 		}
 		fmt.Printf("%s, %s: %.4f\n", tag, addr, balance)
 
