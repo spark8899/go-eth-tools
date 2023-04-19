@@ -7,3 +7,4 @@ EthAddress:
   - aa:0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
   - bb:0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
   - cc:0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+NotifyHour: 8

@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
@@ -23,6 +24,7 @@ type Config struct {
 	AlertTitle   string
 	QywxBot      []string
 	EthAddress   []string
+	NotifyHour   int
 }
 
 type WechatMessage struct {
@@ -60,6 +62,8 @@ func main() {
 		os.Exit(2)
 	}
 
+	currHour := time.Now().UTC().Hour()
+
 	var msg string = fmt.Sprintf("### %s\n", config.AlertTitle)
 	for _, addrStr := range config.EthAddress {
 		tag := strings.Split(addrStr, ":")[0]
@@ -71,7 +75,7 @@ func main() {
 		}
 		fmt.Printf("%s, %s: %.4f\n", tag, addr, balance)
 
-		if balance < config.BalanceAlert {
+		if balance < config.BalanceAlert || currHour == config.NotifyHour {
 			alertInfo := fmt.Sprintf("%s *%.4f*\n", tag, balance)
 			msg = fmt.Sprintf("%s%s", msg, alertInfo)
 		}
